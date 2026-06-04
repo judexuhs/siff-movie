@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  /* Warm near-black charcoal rather than flat #000, like a dimmed auditorium. */
+  background-color: #0b0a0c;
+  color: #f2efe9;
+  /* Layered "theater" lighting: a warm red spotlight from the top-right, a
+     faint gold wash top-left, and a deep ember pooling up from the bottom. */
+  background-image:
+    radial-gradient(1100px 620px at 82% -10%, rgba(226, 54, 43, 0.18), transparent 60%),
+    radial-gradient(820px 520px at 4% 2%, rgba(233, 185, 73, 0.07), transparent 56%),
+    radial-gradient(1300px 900px at 50% 118%, rgba(150, 46, 34, 0.12), transparent 60%),
+    linear-gradient(180deg, #0c0a0d 0%, #0a090b 55%, #080709 100%);
+  background-attachment: fixed;
+}
+
+/* Slow, breathing colour glow behind everything for a sense of depth. */
+.backdrop-glow {
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 38% at 78% 12%, rgba(226, 54, 43, 0.16), transparent 70%),
+    radial-gradient(36% 34% at 16% 82%, rgba(233, 185, 73, 0.07), transparent 72%);
+  filter: blur(20px);
+  animation: glow-drift 22s ease-in-out infinite alternate;
+}
+@keyframes glow-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-2.5%, 2%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* Soft cinematic vignette to focus the eye toward the center. */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 58;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 40%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+}
+
+/* Fixed film-grain overlay for texture. pointer-events-none, never on scroll containers. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Skeleton shimmer */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.06),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Poster marquee */
+.marquee {
+  animation: marquee 60s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
