@@ -1,16 +1,17 @@
 import { SiteHeader } from "@/components/SiteHeader";
-import { FilmBrowser } from "@/components/films/FilmBrowser";
+import { FilmDetailList } from "@/components/films/FilmDetailList";
 import { getSiffFilms } from "@/lib/siff";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "全部影片 · 上影节选片",
+  title: "影片详览 · 上影节选片",
 };
 
-export default async function FilmsPage() {
+export default async function FilmsDetailPage() {
   let films: Awaited<ReturnType<typeof getSiffFilms>> = [];
   let error = "";
+
   try {
     films = await getSiffFilms();
   } catch (e) {
@@ -19,22 +20,14 @@ export default async function FilmsPage() {
 
   return (
     <>
-      <SiteHeader active="films" />
+      <SiteHeader active="films-detail" />
       <main className="mx-auto max-w-screen px-5 py-10 sm:px-8">
         <div className="mb-6">
           <h1 className="text-3xl font-semibold tracking-tight text-cream">
-            全部上影节影片
+            影片详览
           </h1>
           <p className="mt-1.5 text-sm text-cream/50">
-            海报墙快速浏览；需要完整信息请前往
-            <a href="/films/detail" className="mx-1 text-siff-bright hover:underline">
-              影片详览
-            </a>
-            ，按影院请前往
-            <a href="/cinemas" className="mx-1 text-siff-bright hover:underline">
-              影院排片
-            </a>
-            。
+            每部影片完整展开：简介、元信息与全部场次，无需点开弹窗。
           </p>
         </div>
 
@@ -43,7 +36,7 @@ export default async function FilmsPage() {
             {error}
           </p>
         ) : (
-          <FilmBrowser films={films} />
+          <FilmDetailList films={films} />
         )}
       </main>
     </>

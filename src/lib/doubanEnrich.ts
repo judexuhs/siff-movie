@@ -1,3 +1,4 @@
+import "server-only";
 import type { DoubanLink, SiffFilm } from "./types";
 import { proxyFetch } from "./proxyFetch";
 
@@ -82,10 +83,3 @@ export async function suggestDoubanSubject(
   };
 }
 
-/** Deterministic Douban search URL, used as a fallback when no subject matched. */
-export function doubanSearchUrl(film: Pick<SiffFilm, "nameCn" | "nameEn">): string {
-  const q = film.nameCn || film.nameEn || "";
-  return `https://search.douban.com/movie/subject_search?search_text=${encodeURIComponent(
-    q
-  )}`;
-}

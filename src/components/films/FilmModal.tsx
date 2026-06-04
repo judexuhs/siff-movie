@@ -122,7 +122,7 @@ export function FilmModal({
           <p className="mb-2 text-xs font-medium uppercase tracking-wide text-cream/40">
             全部排片 · {film.screenings.length}
           </p>
-          <ScreeningList screenings={film.screenings} />
+          <ScreeningList screenings={film.screenings} film={film} />
         </div>
       </div>
     </div>

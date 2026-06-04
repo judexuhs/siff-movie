@@ -1,3 +1,4 @@
+import "server-only";
 import { ProxyAgent, fetch as undiciFetch, type RequestInit as UndiciRequestInit } from "undici";
 
 const agentCache = new Map<string, ProxyAgent>();

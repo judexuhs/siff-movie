@@ -1,3 +1,4 @@
+import "server-only";
 import type { DoubanMovie, DoubanProfile } from "./types";
 import { proxyFetch } from "./proxyFetch";
 

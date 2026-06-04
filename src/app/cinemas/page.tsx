@@ -1,40 +1,35 @@
 import { SiteHeader } from "@/components/SiteHeader";
-import { FilmBrowser } from "@/components/films/FilmBrowser";
+import { CinemaScheduleView } from "@/components/cinemas/CinemaSchedule";
+import { buildCinemaSchedules } from "@/lib/schedule";
 import { getSiffFilms } from "@/lib/siff";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "全部影片 · 上影节选片",
+  title: "影院排片 · 上影节选片",
 };
 
-export default async function FilmsPage() {
-  let films: Awaited<ReturnType<typeof getSiffFilms>> = [];
+export default async function CinemasPage() {
+  let schedules: ReturnType<typeof buildCinemaSchedules> = [];
   let error = "";
+
   try {
-    films = await getSiffFilms();
+    const films = await getSiffFilms();
+    schedules = buildCinemaSchedules(films);
   } catch (e) {
     error = e instanceof Error ? e.message : "加载失败";
   }
 
   return (
     <>
-      <SiteHeader active="films" />
+      <SiteHeader active="cinemas" />
       <main className="mx-auto max-w-screen px-5 py-10 sm:px-8">
         <div className="mb-6">
           <h1 className="text-3xl font-semibold tracking-tight text-cream">
-            全部上影节影片
+            按影院看排片
           </h1>
           <p className="mt-1.5 text-sm text-cream/50">
-            海报墙快速浏览；需要完整信息请前往
-            <a href="/films/detail" className="mx-1 text-siff-bright hover:underline">
-              影片详览
-            </a>
-            ，按影院请前往
-            <a href="/cinemas" className="mx-1 text-siff-bright hover:underline">
-              影院排片
-            </a>
-            。
+            每家影院内的场次按日期与时间顺序排列，一眼看清何时在哪看哪部片。
           </p>
         </div>
 
@@ -43,7 +38,7 @@ export default async function FilmsPage() {
             {error}
           </p>
         ) : (
-          <FilmBrowser films={films} />
+          <CinemaScheduleView schedules={schedules} />
         )}
       </main>
     </>

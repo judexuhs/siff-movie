@@ -1,5 +1,5 @@
 import type { SiffFilm } from "./types";
-import { doubanSearchUrl } from "./doubanEnrich";
+import { doubanSearchUrl } from "./doubanUrls";
 
 /** SIFF posters need a referer + URL encoding, so route them through our proxy. */
 export function posterSrc(film: Pick<SiffFilm, "posterUrl">): string | null {

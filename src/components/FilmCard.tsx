@@ -130,7 +130,7 @@ export function FilmCard({ rec, rank }: { rec: RecommendedFilm; rank: number }) 
         <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-cream/40">
           排片场次 · {film.screenings.length}
         </p>
-        <ScreeningList screenings={film.screenings} max={4} />
+        <ScreeningList screenings={film.screenings} max={4} film={film} />
       </div>
     </article>
   );

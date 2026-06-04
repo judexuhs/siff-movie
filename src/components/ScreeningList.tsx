@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { SiffScreening } from "@/lib/types";
+import type { SiffFilm, SiffScreening } from "@/lib/types";
+import { WatchlistToggle } from "@/components/watchlist/WatchlistToggle";
 import {
   CalendarBlankIcon,
   MapPinIcon,
@@ -11,10 +12,13 @@ import {
 export function ScreeningList({
   screenings,
   max,
+  film,
 }: {
   screenings: SiffScreening[];
   /** Initial number of screenings to show. Omit to show all. */
   max?: number;
+  /** When set, each row gets a local watchlist toggle (per screening). */
+  film?: SiffFilm;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -32,7 +36,7 @@ export function ScreeningList({
         {shown.map((s) => (
           <div
             key={s.id || `${s.date}-${s.startTime}-${s.cinema}`}
-            className="flex items-center gap-2.5 rounded-lg bg-white/[0.03] px-2.5 py-1.5 text-xs"
+            className="flex items-center gap-2 rounded-lg bg-white/[0.03] px-2.5 py-1.5 text-xs"
           >
             <CalendarBlankIcon className="h-3.5 w-3.5 shrink-0 text-cream/35" />
             <span className="shrink-0 font-medium text-cream">
@@ -51,6 +55,7 @@ export function ScreeningList({
                 见面会
               </span>
             ) : null}
+            {film ? <WatchlistToggle film={film} screening={s} /> : null}
           </div>
         ))}
       </div>
